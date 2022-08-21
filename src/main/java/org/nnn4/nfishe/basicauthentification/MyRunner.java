@@ -3,12 +3,15 @@ package org.nnn4.nfishe.basicauthentification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
+import java.util.UUID;
 
+@Profile("test")
 @Component
 public class MyRunner implements ApplicationRunner {
 
@@ -25,7 +28,7 @@ public class MyRunner implements ApplicationRunner {
     private void inputString(){
         Scanner input = new Scanner(System.in);
         while(!name.equals("exit")){
-            System.out.print("Enter your name: ");
+            System.out.print("UUID: "+ UUID.randomUUID()+", Enter your name: ");
             // takes input from the keyboard
            name = input.nextLine();
            encryptName();
@@ -39,7 +42,7 @@ public class MyRunner implements ApplicationRunner {
             boolean matchOkOld=passwordEncoder.matches(name, encoded);
             String encodedNew=passwordEncoder.encode(name);
             boolean matchOkNew=passwordEncoder.matches(name, encodedNew);
-
+            encoded=encodedNew;
             System.out.println(name+
                     " encoded: "+ encodedNew+
                     " hash: "+ hashed+

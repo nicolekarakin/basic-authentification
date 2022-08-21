@@ -1,6 +1,7 @@
-package org.nnn4.nfishe.basicauthentification.config;
+package org.nnn4.nfishe.basicauthentification.securityold;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -9,19 +10,25 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Profile("old1")
 @EnableWebSecurity
-public class WebConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfigOld1 extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("frank")
                 .password(passwordEncoder().encode("frank123"))
-                .roles("ADMIN")
+                .authorities("ADMIN")
                 .and()
                 .withUser("anna")
                 .password(passwordEncoder().encode("anna123"))
-                .roles("BASIC")
+                .authorities("BASIC")
+                .and()
+                .withUser("user")
+                .password(passwordEncoder().encode("password"))
+                .authorities("ADMIN")
+//                .roles("ADMIN")
         ;
     }
 
